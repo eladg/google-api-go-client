@@ -201,6 +201,11 @@ func (s *LanguagesResource) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields)
 }
 
+type TranslationsListMain struct {
+    // Data: main data structure; contains all other data
+    Data *TranslationsListResponse `json:"data,omitempty"`
+}
+
 type TranslationsListResponse struct {
 	// Translations: Translations contains list of translation results of
 	// given text
@@ -579,7 +584,7 @@ func (c *TranslationsListCall) doRequest(alt string) (*http.Response, error) {
 // returned at all) in error.(*googleapi.Error).Header. Use
 // googleapi.IsNotModified to check whether the returned error was
 // because http.StatusNotModified was returned.
-func (c *TranslationsListCall) Do(opts ...googleapi.CallOption) (*TranslationsListResponse, error) {
+func (c *TranslationsListCall) Do(opts ...googleapi.CallOption) (*TranslationsListMain, error) {
 	gensupport.SetOptions(c.urlParams_, opts...)
 	res, err := c.doRequest("json")
 	if res != nil && res.StatusCode == http.StatusNotModified {
@@ -598,10 +603,12 @@ func (c *TranslationsListCall) Do(opts ...googleapi.CallOption) (*TranslationsLi
 	if err := googleapi.CheckResponse(res); err != nil {
 		return nil, err
 	}
-	ret := &TranslationsListResponse{
-		ServerResponse: googleapi.ServerResponse{
-			Header:         res.Header,
-			HTTPStatusCode: res.StatusCode,
+	ret := &TranslationsListMain{
+		Data: &TranslationsListResponse{
+			ServerResponse: googleapi.ServerResponse{
+				Header:         res.Header,
+				HTTPStatusCode: res.StatusCode,
+			},
 		},
 	}
 	if err := json.NewDecoder(res.Body).Decode(&ret); err != nil {
